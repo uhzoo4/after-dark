@@ -1,0 +1,38 @@
+:root {
+  /* ── Colors ── */
+  --void:         #0a0a0a;
+  --wine-dark:    #1a0505;
+  --crimson:      #8b0000;
+  --blood:        #c0392b;
+  --dusty-rose:   #c4a0a0;
+  --ash:          #e8e0d8;
+  --silver:       #a09898;
+  --frosted:      rgba(10, 10, 10, 0.75);
+
+  /* Spotify green — only for Connect button */
+  --spotify:      #1DB954;
+
+  /* ── Spacing (8px base) ── */
+  --xs:   8px;
+  --sm:   16px;
+  --md:   24px;
+  --lg:   48px;
+  --xl:   80px;
+  --section-pad: 120px;
+
+  /* ── Typography ── */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-mono:    'DM Mono', 'Courier New', monospace;
+
+  /* ── Transitions ── */
+  --fast:   150ms ease;
+  --mid:    300ms ease;
+  --slow:   600ms ease;
+
+  /* ── Z-index layers ── */
+  --z-canvas:   0;
+  --z-grain:    1;
+  --z-content:  2;
+  --z-nav:      100;
+  --z-overlay:  200;
+}

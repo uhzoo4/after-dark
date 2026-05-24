@@ -1,0 +1,11 @@
+# Never commit credentials
+js/config.js
+js/firebase-config.js
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/

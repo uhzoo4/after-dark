@@ -1,0 +1,359 @@
+/* ── Shared section styles ── */
+.section {
+  padding: var(--section-pad) 0;
+}
+
+/* ── Story Section ── */
+.story {
+  background-color: var(--void);
+  transition: background-color 0.1s linear;
+}
+
+.story__paragraph {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  font-weight: 300;
+  line-height: 2;
+  color: var(--ash);
+  margin-bottom: var(--lg);
+  opacity: 0.92;
+}
+
+.story__paragraph:first-of-type::first-letter {
+  font-size: 4em;
+  float: left;
+  line-height: 0.75;
+  margin: 0.1em 0.1em 0 0;
+  color: var(--crimson);
+  font-weight: 400;
+}
+
+/* ── Artist Cards ── */
+.artists {
+  background: var(--wine-dark);
+}
+
+.artists__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.artist-card {
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.02);
+  transition: transform var(--mid), box-shadow var(--mid);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.artist-card--weeknd:hover {
+  box-shadow: 0 20px 60px rgba(139, 0, 0, 0.2);
+}
+
+.artist-card--lana:hover {
+  box-shadow: 0 20px 60px rgba(196, 160, 160, 0.15);
+}
+
+.artist-card__accent {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: var(--sm);
+}
+
+.artist-card--weeknd .artist-card__accent { color: var(--crimson); }
+.artist-card--lana .artist-card__accent   { color: var(--dusty-rose); }
+
+.artist-card__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 300;
+  font-style: italic;
+  margin-bottom: var(--md);
+  color: var(--ash);
+}
+
+.artist-card__desc {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  color: var(--silver);
+  line-height: 1.8;
+  margin-bottom: var(--lg);
+}
+
+.artist-card__album {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--silver);
+  font-style: italic;
+  margin-bottom: var(--sm);
+  opacity: 0.7;
+}
+
+.artist-card__tracks {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.artist-card__tracks li {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--silver);
+  padding-left: var(--sm);
+  border-left: 1px solid rgba(255,255,255,0.08);
+  transition: color var(--fast), border-color var(--fast);
+}
+
+.artist-card__tracks li:hover {
+  color: var(--ash);
+  border-left-color: var(--crimson);
+}
+
+/* ── Tracks Section ── */
+.tracks {
+  background: var(--void);
+}
+
+.tracks__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.track-row {
+  display: grid;
+  grid-template-columns: 40px 1fr 160px 200px 48px;
+  align-items: center;
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background var(--fast);
+  position: relative;
+}
+
+.track-row:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.track-row.playing {
+  background: rgba(139, 0, 0, 0.08);
+}
+
+.track-row.dimmed {
+  opacity: 0.4;
+}
+
+.track__num {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--silver);
+  opacity: 0.3;
+}
+
+.track__name {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--ash);
+  font-weight: 500;
+}
+
+.track__artist {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--silver);
+}
+
+.track__mood {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-style: italic;
+  color: var(--silver);
+  opacity: 0.5;
+}
+
+.track__play {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--silver);
+  font-size: 0.7rem;
+  transition: border-color var(--mid), color var(--mid), background var(--mid);
+}
+
+.track__play:hover,
+.track-row.playing .track__play {
+  border-color: var(--crimson);
+  color: var(--ash);
+  background: var(--crimson);
+}
+
+.track__waveform {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  opacity: 0;
+  transition: opacity var(--mid);
+}
+
+.track-row.playing .track__waveform {
+  opacity: 1;
+}
+
+/* ── Spotify Capsule ── */
+.capsule {
+  background: var(--wine-dark);
+}
+
+.capsule__embeds {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: var(--lg);
+}
+
+.capsule__embed-wrap {
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.capsule__artists {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sm);
+}
+
+.capsule__artist {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.5vw, 2rem);
+  font-weight: 300;
+  color: var(--ash);
+  opacity: 0.7;
+  transition: opacity var(--mid), color var(--mid);
+  cursor: default;
+}
+
+.capsule__artist:hover {
+  opacity: 1;
+  color: var(--ash);
+}
+
+/* ── Vibe Board ── */
+.vibe {
+  background: var(--void);
+}
+
+.vibe__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  gap: 16px;
+}
+
+.vibe-tile {
+  padding: var(--md);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  will-change: transform;
+}
+
+.vibe-tile--wide  { grid-column: span 2; }
+.vibe-tile--tall  { grid-row: span 2; }
+
+.vibe-tile--word {
+  display: flex;
+  align-items: flex-end;
+}
+
+.vibe-tile--word .vibe__word {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ash);
+  opacity: 0.15;
+  line-height: 1;
+}
+
+.vibe-tile--quote .vibe__quote {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--silver);
+  line-height: 1.7;
+}
+
+.vibe-tile--color {
+  min-height: 120px;
+  background: linear-gradient(135deg, var(--wine-dark), var(--crimson));
+  opacity: 0.4;
+  border: none;
+}
+
+/* ── Make Yours ── */
+.make-yours {
+  background: var(--wine-dark);
+  text-align: center;
+}
+
+.make-yours__heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ash);
+  margin-bottom: var(--md);
+}
+
+.make-yours__sub {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--silver);
+  max-width: 480px;
+  margin: 0 auto var(--lg);
+  line-height: 1.8;
+}
+
+/* ── Footer ── */
+.footer {
+  padding: var(--lg) 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer__links {
+  display: flex;
+  gap: var(--md);
+}
+
+.footer__links a {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--silver);
+  opacity: 0.5;
+  transition: opacity var(--fast);
+}
+
+.footer__links a:hover { opacity: 1; }
+
+.footer__copy {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--silver);
+  opacity: 0.3;
+  letter-spacing: 0.05em;
+}

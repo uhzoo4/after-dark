@@ -1,0 +1,168 @@
+/* ── Navbar ── */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  z-index: var(--z-nav);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--xl);
+  transition: background var(--mid), border-color var(--mid), backdrop-filter var(--mid);
+  border-bottom: 1px solid transparent;
+}
+
+.nav.scrolled {
+  background: var(--frosted);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom-color: rgba(255, 255, 255, 0.04);
+}
+
+.nav__logo {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--ash);
+  letter-spacing: 0.05em;
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: var(--lg);
+}
+
+.nav__links a {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--silver);
+  transition: color var(--fast);
+}
+
+.nav__links a:hover {
+  color: var(--ash);
+}
+
+/* ── Hero ── */
+.hero {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Three.js canvas injected here by JS */
+#hero-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-canvas);
+}
+
+.hero__content {
+  position: relative;
+  z-index: var(--z-content);
+  padding: 0 var(--xl);
+  max-width: 900px;
+}
+
+.hero__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--crimson);
+  margin-bottom: var(--md);
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.3s forwards;
+}
+
+.hero__headline {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.05;
+  color: var(--ash);
+  margin-bottom: var(--md);
+}
+
+/* Each char wrapped in span by JS for stagger */
+.hero__headline .char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.hero__sub {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--silver);
+  line-height: 1.8;
+  max-width: 480px;
+  margin-bottom: var(--lg);
+  opacity: 0;
+  animation: fadeUp 0.8s ease 1.4s forwards;
+}
+
+.hero__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--md);
+  opacity: 0;
+  animation: fadeUp 0.8s ease 1.7s forwards;
+}
+
+/* ── Scroll indicator ── */
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-content);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: fadeIn 1s ease 2.5s forwards;
+}
+
+.scroll-indicator__line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, var(--crimson));
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+.scroll-indicator__text {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--silver);
+  opacity: 0.5;
+}
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+@keyframes scrollPulse {
+  0%, 100% { transform: scaleY(1); opacity: 1; }
+  50% { transform: scaleY(0.6); opacity: 0.4; }
+}

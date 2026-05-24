@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Music Identity — After Dark</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/sections.css" />
+  <link rel="stylesheet" href="css/player.css" />
+
+  <!-- Firebase CDN — only loaded on this page -->
+  <script defer src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <!-- GSAP -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <!-- App JS -->
+  <script defer src="js/config.js"></script>
+  <script defer src="js/firebase-config.js"></script>
+  <script defer src="js/firebase-read.js"></script>
+  <script defer src="js/firebase-write.js"></script>
+  <script defer src="js/spotify-auth.js"></script>
+  <script defer src="js/spotify-api.js"></script>
+  <script defer src="js/animations.js"></script>
+  <script defer src="js/player.js"></script>
+  <script defer src="js/generate.js"></script>
+</head>
+
+<body>
+  <nav class="nav">
+    <a href="/" class="nav__logo">After Dark</a>
+    <div id="taste-share" style="display:none">
+      <button class="btn btn--primary" onclick="copyShareLink()" style="font-size:0.78rem; padding:10px 20px;">
+        Share this page
+      </button>
+    </div>
+  </nav>
+
+  <div id="taste-content">
+
+    <!-- Hero — name and vibe populated by generate.js -->
+    <section class="hero" id="home" style="height: 60vh;">
+      <div class="hero__content">
+        <p class="hero__eyebrow">Music Identity</p>
+        <h1 class="hero__headline" id="taste-name">Loading...</h1>
+        <p class="hero__sub" id="taste-vibe"></p>
+      </div>
+    </section>
+
+    <!-- Tracks -->
+    <section class="tracks section" id="tracks">
+      <div class="container">
+        <p class="section-label">Top Tracks</p>
+        <div class="tracks__list" id="taste-tracks">
+          <!-- Populated by generate.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Artists -->
+    <section class="capsule section" id="capsule">
+      <div class="container">
+        <p class="section-label">Top Artists</p>
+        <div class="capsule__artists" id="taste-artists">
+          <!-- Populated by generate.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="make-yours section" id="yours">
+      <div class="container">
+        <h2 class="make-yours__heading reveal">Make your own.</h2>
+        <p class="make-yours__sub reveal">This page was generated from real Spotify data. Connect yours and get a shareable link too.</p>
+        <button class="btn btn--spotify reveal" onclick="SpotifyAuth.login()">
+          Connect Spotify
+        </button>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__links">
+        <a href="/">← Back to After Dark</a>
+      </div>
+      <p class="footer__copy">Powered by Spotify API · Built by Yoozhaa</p>
+    </div>
+  </footer>
+
+  <script>
+    function copyShareLink() {
+      navigator.clipboard.writeText(window.location.href)
+        .then(() => {
+          const btn = document.querySelector('#taste-share button')
+          btn.textContent = 'Copied!'
+          setTimeout(() => { btn.textContent = 'Share this page' }, 2000)
+        })
+    }
+  </script>
+
+</body>
+</html>

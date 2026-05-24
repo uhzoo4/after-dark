@@ -1,0 +1,3 @@
+Spotify Client ID-137d2af1cab84e97baab285f51486410
+Firebase project name-After Dark
+Firebase database URL-https://after-dark-830b3-default-rtdb.asia-southeast1.firebasedatabase.app/

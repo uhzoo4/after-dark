@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>After Dark — Yoozhaa's Music Universe</title>
+  <meta name="description" content="A cinematic journey through the music that lives inside me." />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/sections.css" />
+  <link rel="stylesheet" href="css/player.css" />
+
+  <!-- Three.js CDN -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- GSAP + ScrollTrigger CDN -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <!-- App JS -->
+  <script defer src="js/config.js"></script>
+  <script defer src="js/three-scene.js"></script>
+  <script defer src="js/animations.js"></script>
+  <script defer src="js/tilt.js"></script>
+  <script defer src="js/spotify-auth.js"></script>
+  <script defer src="js/player.js"></script>
+</head>
+
+<body>
+
+  <!-- ── Navbar ── -->
+  <nav class="nav">
+    <a href="/" class="nav__logo">After Dark</a>
+    <ul class="nav__links">
+      <li><a href="#story">Story</a></li>
+      <li><a href="#artists">Artists</a></li>
+      <li><a href="#tracks">Tracks</a></li>
+      <li><a href="#vibe">Vibe</a></li>
+      <li><a href="#yours">Make Yours</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section class="hero" id="home">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero__content">
+      <p class="hero__eyebrow">Yoozhaa · Music Identity</p>
+      <h1 class="hero__headline">I don't listen to music.<br>I disappear into it.</h1>
+      <p class="hero__sub">Dark, cinematic, and unapologetically bold. This is what The Weeknd and Lana Del Rey sound like from the inside.</p>
+      <div class="hero__actions">
+        <a href="#story" class="btn btn--primary">Enter</a>
+        <a href="#yours" class="btn btn--ghost">Make yours</a>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <div class="scroll-indicator__line"></div>
+      <span class="scroll-indicator__text">Scroll</span>
+    </div>
+  </section>
+
+  <!-- ── Story ── -->
+  <section class="story section" id="story">
+    <div class="container--narrow">
+      <p class="section-label">The Story</p>
+      <p class="story__paragraph">
+        It started with one song at 3am. I don't remember which one. But I remember the feeling — like the music wasn't playing through speakers but through the walls of the room, through my chest. That's when I knew this wasn't background noise. This was the closest thing I had to a language that said what I couldn't.
+      </p>
+      <p class="story__paragraph">
+        The Weeknd taught me that darkness doesn't need to be explained. It just needs to be felt. After Hours wasn't sad. It was honest. There's a difference. Lana Del Rey gave that darkness texture — a film grain, a slow exhale, the kind of beauty that only exists because it knows it won't last.
+      </p>
+      <p class="story__paragraph">
+        I listen to music the way some people journal. Privately, obsessively, always at night. This page is that journal — made visible.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Artists ── -->
+  <section class="artists section" id="artists">
+    <div class="container">
+      <p class="section-label">The Artists</p>
+      <div class="artists__grid">
+
+        <!-- The Weeknd -->
+        <div class="artist-card artist-card--weeknd">
+          <p class="artist-card__accent">Since · 2020</p>
+          <h2 class="artist-card__name">The Weeknd</h2>
+          <p class="artist-card__desc">
+            Nobody makes 3am sound like this. After Hours is the only album I've listened to start-to-finish without skipping, multiple times, in complete darkness. It's not music you enjoy. It's music you survive.
+          </p>
+          <p class="artist-card__album">Favourite album — After Hours</p>
+          <ul class="artist-card__tracks">
+            <li>Blinding Lights</li>
+            <li>Starboy</li>
+            <li>Save Your Tears</li>
+          </ul>
+        </div>
+
+        <!-- Lana Del Rey -->
+        <div class="artist-card artist-card--lana">
+          <p class="artist-card__accent">Since · 2021</p>
+          <h2 class="artist-card__name">Lana Del Rey</h2>
+          <p class="artist-card__desc">
+            Cinematic sadness with a vintage lens. Lana sounds like a place that doesn't exist anymore but you remember perfectly. Born to Die hit different every single time because she isn't performing the emotion — she's reconstructing it.
+          </p>
+          <p class="artist-card__album">Favourite album — Born to Die</p>
+          <ul class="artist-card__tracks">
+            <li>Young and Beautiful</li>
+            <li>Video Games</li>
+            <li>Summertime Sadness</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Tracks ── -->
+  <section class="tracks section" id="tracks">
+    <div class="container">
+      <p class="section-label">Tracks I Live In</p>
+      <div class="tracks__list">
+
+        <!-- Each row: data-preview = Spotify preview URL, data-spotify-url = full track link -->
+        <!-- Replace preview URLs with real ones from your Spotify top tracks -->
+
+        <div class="track-row"
+             data-preview=""
+             data-spotify-url="https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b">
+          <span class="track__num">01</span>
+          <span class="track__name">Blinding Lights</span>
+          <span class="track__artist">The Weeknd</span>
+          <span class="track__mood">neon city at 4am</span>
+          <button class="track__play" aria-label="Play preview">▶</button>
+          <canvas class="waveform-canvas"></canvas>
+        </div>
+
+        <div class="track-row"
+             data-preview=""
+             data-spotify-url="https://open.spotify.com/track/7MXVkk9YMctZqd1Srtv4MB">
+          <span class="track__num">02</span>
+          <span class="track__name">Starboy</span>
+          <span class="track__artist">The Weeknd</span>
+          <span class="track__mood">when everything feels too heavy</span>
+          <button class="track__play" aria-label="Play preview">▶</button>
+          <canvas class="waveform-canvas"></canvas>
+        </div>
+
+        <div class="track-row"
+             data-preview=""
+             data-spotify-url="https://open.spotify.com/track/2p8IUWQDrpjuFltbdgLOag">
+          <span class="track__num">03</span>
+          <span class="track__name">Young and Beautiful</span>
+          <span class="track__artist">Lana Del Rey</span>
+          <span class="track__mood">love that already knows it ends</span>
+          <button class="track__play" aria-label="Play preview">▶</button>
+          <canvas class="waveform-canvas"></canvas>
+        </div>
+
+        <div class="track-row"
+             data-preview=""
+             data-spotify-url="https://open.spotify.com/track/3qQbCQM8tKiF1aHmVMSn3L">
+          <span class="track__num">04</span>
+          <span class="track__name">Save Your Tears</span>
+          <span class="track__artist">The Weeknd</span>
+          <span class="track__mood">guilt dressed in a pop hook</span>
+          <button class="track__play" aria-label="Play preview">▶</button>
+          <canvas class="waveform-canvas"></canvas>
+        </div>
+
+        <div class="track-row"
+             data-preview=""
+             data-spotify-url="https://open.spotify.com/track/2RlgNHKcydI9sayD2Df2xp">
+          <span class="track__num">05</span>
+          <span class="track__name">Video Games</span>
+          <span class="track__artist">Lana Del Rey</span>
+          <span class="track__mood">slow afternoons that never end</span>
+          <button class="track__play" aria-label="Play preview">▶</button>
+          <canvas class="waveform-canvas"></canvas>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Spotify Capsule ── -->
+  <section class="capsule section" id="capsule">
+    <div class="container">
+      <p class="section-label">What's on Repeat</p>
+      <div class="capsule__embeds">
+        <!-- Replace playlist ID with your actual Spotify playlist ID -->
+        <div class="capsule__embed-wrap">
+          <iframe
+            src="https://open.spotify.com/embed/playlist/37i9dQZF1DX6aTaZa0K6VA?utm_source=generator&theme=0"
+            width="100%"
+            height="352"
+            frameborder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy">
+          </iframe>
+        </div>
+        <!-- Replace album ID with your actual Spotify album ID -->
+        <div class="capsule__embed-wrap">
+          <iframe
+            src="https://open.spotify.com/embed/album/2ODvWsOgouMbaA5xf0RkJe?utm_source=generator&theme=0"
+            width="100%"
+            height="352"
+            frameborder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy">
+          </iframe>
+        </div>
+      </div>
+      <div class="capsule__artists">
+        <div class="capsule__artist">The Weeknd</div>
+        <div class="capsule__artist">Lana Del Rey</div>
+        <div class="capsule__artist">Post Malone</div>
+        <div class="capsule__artist">Travis Scott</div>
+        <div class="capsule__artist">Billie Eilish</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Vibe Board ── -->
+  <section class="vibe section" id="vibe">
+    <div class="container">
+      <p class="section-label">The Vibe</p>
+      <div class="vibe__grid">
+        <div class="vibe-tile vibe-tile--word vibe-tile--wide" data-speed="0.3">
+          <span class="vibe__word">cinematic</span>
+        </div>
+        <div class="vibe-tile vibe-tile--quote" data-speed="0.8">
+          <p class="vibe__quote">"It's all about the music. The rest is just noise."</p>
+        </div>
+        <div class="vibe-tile vibe-tile--color" data-speed="1.1"></div>
+        <div class="vibe-tile vibe-tile--word" data-speed="0.5">
+          <span class="vibe__word">3am</span>
+        </div>
+        <div class="vibe-tile vibe-tile--word" data-speed="0.9">
+          <span class="vibe__word">hollow</span>
+        </div>
+        <div class="vibe-tile vibe-tile--quote vibe-tile--wide" data-speed="0.6">
+          <p class="vibe__quote">Dark does not mean empty. Sometimes it means everything is too full to speak.</p>
+        </div>
+        <div class="vibe-tile vibe-tile--word" data-speed="1.2">
+          <span class="vibe__word">bloom</span>
+        </div>
+        <div class="vibe-tile vibe-tile--color vibe-tile--wide" data-speed="0.4"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Make Yours ── -->
+  <section class="make-yours section" id="yours">
+    <div class="container">
+      <h2 class="make-yours__heading reveal">What does your music say about you?</h2>
+      <p class="make-yours__sub reveal">Connect your Spotify. Get your own cinematic music identity page. Share it with anyone.</p>
+      <button class="btn btn--spotify reveal" onclick="SpotifyAuth.login()">
+        Connect Spotify
+      </button>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__links">
+        <a href="https://open.spotify.com" target="_blank" rel="noopener">Spotify</a>
+        <a href="https://github.com/hansharaj-das" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/hansharaj-das-586640408/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <p class="footer__copy">Built in the dark. Listened to louder. — Yoozhaa © 2026</p>
+    </div>
+  </footer>
+
+</body>
+</html>

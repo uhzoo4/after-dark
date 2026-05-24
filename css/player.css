@@ -1,0 +1,50 @@
+/* ── Audio Player ── */
+.waveform-canvas {
+  position: absolute;
+  bottom: 0;
+  left: 40px;
+  right: 48px;
+  height: 2px;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+.track-row.playing .waveform-canvas {
+  opacity: 1;
+}
+
+/* Loading state on play button */
+.track__play.loading {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.track__play.loading::before {
+  content: '⟳';
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* External link fallback when preview_url is null */
+.track__external {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--silver);
+  font-size: 0.75rem;
+  opacity: 0.4;
+  transition: opacity var(--mid), border-color var(--mid);
+}
+
+.track__external:hover {
+  opacity: 1;
+  border-color: var(--spotify);
+  color: var(--spotify);
+}
