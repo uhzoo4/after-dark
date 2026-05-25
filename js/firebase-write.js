@@ -34,7 +34,7 @@ async function saveProfile(userData) {
 }
 
 function generateVibeDescription(artists) {
-  const genres = artists.flatMap(a => a.genres)
+  const genres = artists.flatMap  (a => a.genres || [])
 
   const map = {
     'r-n-b':       'smooth and late-night',
@@ -51,7 +51,7 @@ function generateVibeDescription(artists) {
 
   const matched = []
   for (const [key, desc] of Object.entries(map)) {
-    if (genres.some(g => g.includes(key)) && matched.length < 3) {
+    if (genres.some(g => g && g.includes(key)) && matched.length < 3) {
       matched.push(desc)
     }
   }

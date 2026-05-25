@@ -4,15 +4,15 @@
   bottom: 0;
   left: 40px;
   right: 48px;
-  height: 2px;
+  height: 8px;
   opacity: 0;
   transition: opacity 300ms ease;
 }
 
+.track-row.playing .track__waveform,
 .track-row.playing .waveform-canvas {
   opacity: 1;
 }
-
 /* Loading state on play button */
 .track__play.loading {
   pointer-events: none;
