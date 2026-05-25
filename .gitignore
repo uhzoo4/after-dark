@@ -1,6 +1,6 @@
 # Never commit credentials
 
-js/firebase-config.js
+
 
 # OS
 .DS_Store
