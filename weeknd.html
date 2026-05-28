@@ -204,29 +204,62 @@ body::before {
   writing-mode:vertical-rl;
 }
 
-/* ── TRACK SHEET (the paper reveal) ── */
-.track-sheet {
-  position:fixed; top:0; right:0; bottom:0;
-  width:42vw; z-index:700;
-  background:linear-gradient(135deg, #0f0505 0%, #080808 100%);
-  border-left:1px solid rgba(139,0,0,.15);
-  transform:translateX(100%);
-  display:flex; flex-direction:column; justify-content:center;
-  padding:60px 56px;
-  overflow-y:auto;
+/* ── VINYL WRAPPER — clip container for physical paper extraction ── */
+.vinyl-wrapper {
+  position: relative;
+  width: 420px;
+  height: 420px;
+  overflow: visible;
+}
+
+/* ── PAPER SHEET — lives INSIDE .vinyl-panel, right of disc ── */
+.paper-sheet {
+  position: absolute;
+  top: 50%;
+  left: 420px;
+  transform: translateY(-50%) translateX(-380px);
+  width: 380px;
+  height: 500px;
+  background: linear-gradient(160deg, #100606 0%, #0a0808 60%, #080808 100%);
+  border-left: 1px solid rgba(139,0,0,.2);
+  border-top: 1px solid rgba(255,255,255,.04);
+  border-bottom: 1px solid rgba(255,255,255,.03);
+  border-right: 1px solid rgba(255,255,255,.03);
+  padding: 44px 40px 40px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow:
+    -20px 0 60px rgba(0,0,0,.7),
+    -4px 0 20px rgba(139,0,0,.08),
+    inset 1px 0 0 rgba(139,0,0,.06);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 10;
+}
+
+.paper-sheet::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(to right, var(--crimson), transparent);
+  opacity: .4;
+  flex-shrink: 0;
 }
 
 .sheet__close {
-  position:absolute; top:32px; right:36px;
-  font-family:var(--fm); font-size:.7rem; letter-spacing:.15em;
+  position: absolute; top: 16px; right: 20px;
+  font-family:var(--fm); font-size:.65rem; letter-spacing:.15em;
   text-transform:uppercase; color:var(--silver); background:none; border:none; cursor:pointer;
-  transition:color .2s;
+  transition:color .2s; z-index:10;
 }
 .sheet__close:hover { color:var(--ash); }
 
-.sheet__eyebrow { font-family:var(--fm); font-size:.6rem; letter-spacing:.28em; text-transform:uppercase; color:var(--crimson); margin-bottom:14px; opacity:0; }
-.sheet__title { font-family:var(--fd); font-size:clamp(1.8rem,3vw,2.6rem); font-weight:300; font-style:italic; line-height:1.05; color:var(--ash); margin-bottom:6px; opacity:0; }
-.sheet__year { font-family:var(--fm); font-size:.7rem; color:var(--silver); opacity:0; margin-bottom:40px; }
+.sheet__eyebrow { font-family:var(--fm); font-size:.58rem; letter-spacing:.28em; text-transform:uppercase; color:var(--crimson); margin-bottom:12px; opacity:0; flex-shrink:0; }
+.sheet__title { font-family:var(--fd); font-size:clamp(1.4rem,2.2vw,2rem); font-weight:300; font-style:italic; line-height:1.05; color:var(--ash); margin-bottom:4px; opacity:0; flex-shrink:0; }
+.sheet__year { font-family:var(--fm); font-size:.68rem; color:var(--silver); opacity:0; margin-bottom:28px; flex-shrink:0; }
 
 .sheet__tracks { display:flex; flex-direction:column; }
 
@@ -317,15 +350,7 @@ body::before {
   </div>
 </section>
 
-<!-- Track Sheet -->
-<div class="track-sheet" id="trackSheet">
-  <button class="sheet__close" id="sheetClose">✕ Close</button>
-  <p class="sheet__eyebrow" id="sheetEyebrow">The Weeknd · Album</p>
-  <h2 class="sheet__title" id="sheetTitle"></h2>
-  <p class="sheet__year" id="sheetYear"></p>
-  <div class="sheet__tracks" id="sheetTracks"></div>
-  <a href="#" class="sheet__spotify" id="sheetSpotify" target="_blank" rel="noopener">Open in Spotify ↗</a>
-</div>
+<!-- Paper sheets are injected into each vinyl-panel by buildPanels() -->
 
 <script>
 // ─────────────────────────────────────────────
@@ -513,13 +538,33 @@ function buildPanels() {
   const depth = document.getElementById('depthLayer')
 
   ALBUMS.forEach((album, i) => {
-    // Foreground panel
+    // Foreground panel — now has a wrapper + attached paper sheet
     const panel = document.createElement('div')
     panel.className = 'vinyl-panel'
     panel.id = `vp-${i}`
     panel.innerHTML = `
-      <div class="vinyl-disc" style="--label-color:${album.labelColor}">
-        <div class="vinyl-hole"></div>
+      <div class="vinyl-wrapper">
+        <div class="vinyl-disc" style="--label-color:${album.labelColor}">
+          <div class="vinyl-hole"></div>
+        </div>
+        <div class="paper-sheet" id="ps-${i}">
+          <button class="sheet__close" data-idx="${i}">✕</button>
+          <p class="sheet__eyebrow">The Weeknd · ${album.year}</p>
+          <h2 class="sheet__title">${album.title}</h2>
+          <p class="sheet__year">${album.year}</p>
+          <div class="sheet__tracks">
+            ${album.tracks.map((t,ti) => `
+              <div class="sheet__track" data-url="${t.url}">
+                <span class="sheet__track-num">${String(ti+1).padStart(2,'0')}</span>
+                <span class="sheet__track-name">${t.name}</span>
+                <button class="sheet__track-btn" aria-label="Open in Spotify">↗</button>
+              </div>
+            `).join('')}
+          </div>
+          <a href="${album.spotifyUrl}" target="_blank" rel="noopener" class="sheet__spotify">
+            Open in Spotify ↗
+          </a>
+        </div>
       </div>
       <div class="vinyl-info">
         <p class="vinyl-info__label">0${i+1} · The Weeknd</p>
@@ -528,7 +573,25 @@ function buildPanels() {
       </div>
       <p class="vinyl-hint">Click to open</p>
     `
-    panel.addEventListener('click', () => openSheet(i))
+
+    // Wire close button
+    panel.querySelector('.sheet__close').addEventListener('click', e => {
+      e.stopPropagation()
+      closeSheet(i)
+    })
+
+    // Wire Spotify track buttons
+    panel.querySelectorAll('.sheet__track-btn').forEach((btn, ti) => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation()
+        const url = btn.closest('.sheet__track').dataset.url
+        window.open(url, '_blank')
+      })
+    })
+
+    // Click vinyl disc = open sheet
+    panel.querySelector('.vinyl-disc').addEventListener('click', () => openSheet(i))
+
     stage.appendChild(panel)
     panels.push(panel)
 
@@ -623,121 +686,127 @@ function initScroll() {
 }
 
 // ─────────────────────────────────────────────
-// TRACK SHEET — open with cinematic reveal
+// TRACK SHEET — physical paper extraction
+// Sheet lives inside vinyl-panel, extrudes right
+// as vinyl moves left — same coordinate space
 // ─────────────────────────────────────────────
-let activePanel   = null
-let sheetOpen     = false
-let sheetTl       = null
-let savedScrollY  = 0
+let activeIdx   = -1
+let sheetOpen   = false
 
 function openSheet(idx) {
   if (sheetOpen) return
-  sheetOpen     = true
-  activePanel   = panels[idx]
-  savedScrollY  = window.scrollY
+  sheetOpen  = true
+  activeIdx  = idx
 
-  const album   = ALBUMS[idx]
-  const sheet   = document.getElementById('trackSheet')
-  const eyebrow = document.getElementById('sheetEyebrow')
-  const title   = document.getElementById('sheetTitle')
-  const year    = document.getElementById('sheetYear')
-  const tracks  = document.getElementById('sheetTracks')
-  const spotify = document.getElementById('sheetSpotify')
-
-  // Populate
-  eyebrow.textContent = `The Weeknd · ${album.year}`
-  title.textContent   = album.title
-  year.textContent    = album.year
-  spotify.href        = album.spotifyUrl
-
-  tracks.innerHTML = album.tracks.map((t,i) => `
-    <div class="sheet__track" data-url="${t.url}">
-      <span class="sheet__track-num">${String(i+1).padStart(2,'0')}</span>
-      <span class="sheet__track-name">${t.name}</span>
-      <button class="sheet__track-btn" aria-label="Open in Spotify">↗</button>
-    </div>
-  `).join('')
-
-  tracks.querySelectorAll('.sheet__track').forEach(row => {
-    row.querySelector('.sheet__track-btn').addEventListener('click', e => {
-      e.stopPropagation()
-      window.open(row.dataset.url, '_blank')
-    })
-  })
+  const panel  = panels[idx]
+  const sheet  = panel.querySelector('.paper-sheet')
+  const info   = panel.querySelector('.vinyl-info')
+  const hint   = panel.querySelector('.vinyl-hint')
+  const tracks = panel.querySelectorAll('.sheet__track')
+  const eyebrow = sheet.querySelector('.sheet__eyebrow')
+  const title   = sheet.querySelector('.sheet__title')
+  const year    = sheet.querySelector('.sheet__year')
+  const spotify = sheet.querySelector('.sheet__spotify')
 
   // Lock scroll
   document.body.style.overflow = 'hidden'
 
-  // GSAP timeline
-  sheetTl = gsap.timeline()
+  // Hide info/hint — they'd overlap
+  gsap.to([info, hint], { opacity:0, duration:.2 })
 
-  // Phase 1 — vinyl moves left
-  sheetTl
-    .to(activePanel, {
-      x: '-22vw',
-      scale: 1.15,
-      duration: .7,
-      ease: 'power3.inOut'
-    })
+  const tl = gsap.timeline()
 
-  // Phase 2 — sheet slides in
-  sheetTl
-    .to(sheet, {
-      x: '0%',
-      duration: .65,
-      ease: 'power3.inOut'
-    }, '-=.3')
+  // Phase 1 — vinyl moves LEFT, creates space for paper to emerge
+  tl.to(panel, {
+    x: '-18vw',
+    scale: 1.08,
+    duration: .65,
+    ease: 'power3.inOut'
+  })
 
-  // Phase 3 — content fades in staggered
-  sheetTl
-    .to([eyebrow, title, year], {
-      opacity: 1, duration: .5, stagger: .08, ease:'power2.out'
-    }, '-=.1')
-    .to('.sheet__track', {
-      opacity: 1, x: 0, duration: .4, stagger: .045, ease:'power2.out'
-    }, '-=.2')
-    .to(spotify, {
-      opacity: 1, duration: .4, ease:'power2.out'
-    }, '-=.1')
+  // Phase 2 — paper sheet extrudes from right edge of vinyl
+  // translateX goes from -380px (hidden behind disc) to 0 (fully out)
+  tl.to(sheet, {
+    translateX: 0,       // extrudes right
+    opacity: 1,
+    duration: .55,
+    ease: 'power2.out',
+    pointerEvents: 'all',
+    onStart: () => { sheet.style.pointerEvents = 'all' }
+  }, '-=.25')
+
+  // Phase 3 — header fades in
+  tl.to([eyebrow, title, year], {
+    opacity: 1,
+    duration: .35,
+    stagger: .07,
+    ease: 'power2.out'
+  }, '-=.1')
+
+  // Phase 4 — tracks appear one by one AFTER paper clears vinyl
+  tl.to(tracks, {
+    opacity: 1,
+    x: 0,
+    duration: .3,
+    stagger: .04,
+    ease: 'power2.out'
+  }, '-=.05')
+
+  tl.to(spotify, { opacity:1, duration:.3, ease:'power2.out' }, '-=.1')
 }
 
-function closeSheet() {
-  if (!sheetOpen) return
+function closeSheet(idx) {
+  if (!sheetOpen || activeIdx !== idx) return
 
-  const sheet = document.getElementById('trackSheet')
+  const panel  = panels[idx]
+  const sheet  = panel.querySelector('.paper-sheet')
+  const info   = panel.querySelector('.vinyl-info')
+  const tracks = panel.querySelectorAll('.sheet__track')
+  const eyebrow = sheet.querySelector('.sheet__eyebrow')
+  const title   = sheet.querySelector('.sheet__title')
+  const year    = sheet.querySelector('.sheet__year')
+  const spotify = sheet.querySelector('.sheet__spotify')
 
-  const closeTl = gsap.timeline({
+  const tl = gsap.timeline({
     onComplete: () => {
-      sheetOpen   = false
-      activePanel = null
+      sheetOpen = false
+      activeIdx = -1
       document.body.style.overflow = ''
-      // Reset track opacities for next open
-      gsap.set('.sheet__track', { opacity:0, x:16 })
-      gsap.set([
-        document.getElementById('sheetEyebrow'),
-        document.getElementById('sheetTitle'),
-        document.getElementById('sheetYear'),
-        document.getElementById('sheetSpotify')
-      ], { opacity:0 })
+      // Reset for next open
+      gsap.set(tracks,  { opacity:0, x:16 })
+      gsap.set([eyebrow, title, year, spotify], { opacity:0 })
     }
   })
 
-  // Reverse — tracks out
-  closeTl
-    .to('.sheet__track', { opacity:0, x:16, duration:.25, stagger:.02, ease:'power2.in' })
-    .to(document.getElementById('sheetSpotify'), { opacity:0, duration:.2 }, '<')
+  // Phase 1 — tracks disappear fast
+  tl.to(tracks, { opacity:0, x:8, duration:.18, stagger:.02, ease:'power2.in' })
+  tl.to([eyebrow, title, year, spotify], { opacity:0, duration:.15 }, '<')
 
-  // Sheet retracts
-  closeTl
-    .to(sheet, { x:'100%', duration:.6, ease:'power3.inOut' }, '-=.1')
+  // Phase 2 — paper retracts INTO vinyl (translateX back to -380px)
+  tl.to(sheet, {
+    translateX: -380,
+    opacity: 0,
+    duration: .5,
+    ease: 'power3.inOut',
+    onComplete: () => { sheet.style.pointerEvents = 'none' }
+  }, '-=.05')
 
-  // Vinyl returns
-  closeTl
-    .to(activePanel, { x:0, scale:1, duration:.6, ease:'power3.inOut' }, '-=.45')
+  // Phase 3 — vinyl returns to original position
+  tl.to(panel, {
+    x: 0,
+    scale: 1,
+    duration: .55,
+    ease: 'power3.inOut'
+  }, '-=.3')
+
+  // Restore info
+  tl.to(info, { opacity:1, duration:.3 }, '-=.1')
 }
 
-document.getElementById('sheetClose').addEventListener('click', closeSheet)
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeSheet() })
+// Escape key closes active sheet
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && sheetOpen) closeSheet(activeIdx)
+})
 
 // ─────────────────────────────────────────────
 // INIT
